@@ -1,7 +1,6 @@
 import NextAuth from "next-auth";
 import db from "@/lib/prisma-config";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { getUserByID } from "./lib/utils/user.utils";
 
 import authConfig from "./lib/auth.config";
 
