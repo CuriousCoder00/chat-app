@@ -17,7 +17,6 @@ export const Header = ({}: Props) => {
       <div className="flex items-center justify-center gap-3">
         <ModeToggle />
         <Button onClick={() => router.push("/auth/login")}>Login</Button>
-        <Button onClick={() => router.push("/auth/register")}>Sign Up</Button>
       </div>
     </header>
   );
