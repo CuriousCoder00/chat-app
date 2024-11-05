@@ -8,7 +8,7 @@ type Props = {};
 export const Header = ({}: Props) => {
   const router = useRouter();
   return (
-    <header className="flex items-center justify-between p-2 px-8">
+    <header className="fixed top-0 w-full flex items-center justify-between p-2 px-8">
       <div className=" flex items-center space-x-4">
         <Link href={"/"} className="text-2xl font-bold">
           Chat Verse
