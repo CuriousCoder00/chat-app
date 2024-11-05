@@ -9,9 +9,7 @@ export default auth((req) => {
 
   const isApiAuthRoute = nextUrl.pathname.startsWith("/api/auth");
   const isPublicRoute = ["/"].includes(nextUrl.pathname);
-  const isAuthRoute = ["/auth/login", "/auth/register"].includes(
-    nextUrl.pathname
-  );
+  const isAuthRoute = ["/auth/login"].includes(nextUrl.pathname);
 
   const DEFAULT_LOGIN_REDIRECT = "/chats";
 
