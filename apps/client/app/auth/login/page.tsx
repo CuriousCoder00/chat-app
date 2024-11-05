@@ -1,10 +1,9 @@
+"use client";
 import { LoginForm } from "@/components/auth/login-form";
 import React from "react";
 
 const LoginPage = () => {
-  return (
-      <LoginForm />
-  );
+  return <LoginForm />;
 };
 
 export default LoginPage;
