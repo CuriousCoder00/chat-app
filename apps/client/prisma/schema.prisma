@@ -20,13 +20,12 @@ model User {
 
   email    String  @unique
   username String? @unique
-  password String?
 
   image String?
 
-  accounts Account[]
-  messages Message[]
-  friends Friend[]
+  accounts      Account[]
+  messages      Message[]
+  conversations Conversation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -54,11 +53,13 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model Friend{
+model Conversation {
   id String @id @default(cuid()) @map("_id")
 
-  friendId String
-  friend   User   @relation(fields: [friendId], references: [id])
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  messages Message[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -70,7 +71,10 @@ model Message {
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
-  content String
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  
+  content        String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

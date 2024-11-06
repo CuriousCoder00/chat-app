@@ -1,4 +1,3 @@
-"use client";
 import { ChatSidebar, ChatSidebarItems } from "@/components/chats/sidebar";
 
 export default function RootLayout({

@@ -1,18 +1,41 @@
 "use client";
 
-import { Camera, PhoneCall, PhoneCallIcon, Video } from "lucide-react";
-import { FcVideoCall } from "react-icons/fc";
+import { PhoneCallIcon, Video } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useEffect, useState } from "react";
+import { getUserByID } from "@/lib/utils/user.utils";
+import { User } from "@prisma/client";
+import { getUserData } from "@/actions/user.actions";
 
-type Props = {};
-export const ChatHeader = ({}: Props) => {
+type Props = {
+  id: string;
+};
+
+export const ChatHeader = ({ id }: Props) => {
+  const [user, setUser] = useState<any>();
+
+  const fetchUser = async (id: string) => {
+    const user = await getUserData(id);
+    setUser(user);
+    console.log(user);
+  };
+
+  useEffect(() => {
+    fetchUser(id);
+    console.log("user set", user);
+  }, []);
+
   return (
     <div className="w-full flex items-center justify-between p-2 border-b">
-      <div className=" flex items-center space-x-4">
+      <div className="flex items-center space-x-4">
         <Avatar>
-          <AvatarImage src="https://randomuser.me/api/portraits" />
-          <AvatarFallback>U</AvatarFallback>
+          <AvatarImage src={user?.image as string} />
+          <AvatarFallback>{user?.name[0]}</AvatarFallback>
         </Avatar>
+        <div className="flex flex-col gap-0">
+          <h2 className="text-lg font-bold">{user?.name}</h2>
+          <span className="text-xs text-gray-500">Online</span>
+        </div>
       </div>
       <div className="flex items-center justify-center gap-5">
         <PhoneCallIcon size={18} />

@@ -17,10 +17,10 @@ export default function RootLayout({
           <div className="flex w-full h-full">
             <Sidebar>
               <SidebarItems>
-                <div className="flex flex-col items-start mt-6 gap-1 max-sm:hidden w-36">
+                <div className="flex flex-col items-start mt-6 gap-1 max-sm:hidden">
                   <Link
                     className="flex gap-2 items-center justify-start p-2 hover:bg-gray-200 hover:dark:bg-gray-900 w-full"
-                    href={"/chats"}
+                    href={"/c"}
                   >
                     <MessageSquare size={16} /> Chats
                   </Link>

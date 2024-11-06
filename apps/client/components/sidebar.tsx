@@ -5,9 +5,9 @@ type SidebarProps = {
 };
 
 export const Sidebar = ({ children }: SidebarProps) => {
-  return <div className="flex items-start justify-start w-40 max-sm:hidden">{children}</div>;
+  return <div className="flex items-start justify-start max-sm:hidden">{children}</div>;
 };
 
 export const SidebarItems = ({ children }: SidebarProps) => {
-  return <div className="flex flex-col items-start w-40 px-3">{children}</div>;
+  return <div className="flex flex-col items-start px-3">{children}</div>;
 };

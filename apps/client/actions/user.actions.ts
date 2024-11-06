@@ -31,3 +31,16 @@ export const updateUsername = async (username: string, email: string) => {
     };
   }
 };
+
+export const getUserData = async (id: string) => {
+  try {
+    const user = await db.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    return user;
+  } catch {
+    return null;
+  }
+};

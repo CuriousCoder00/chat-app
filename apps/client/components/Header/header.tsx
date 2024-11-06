@@ -31,7 +31,7 @@ export const Header = ({}: Props) => {
                 <div className="flex flex-col gap-3 p-2 mt-5">
                   <Link
                     className="flex gap-3 hover:bg-gray-200 hover:dark:bg-gray-900 rounded-md p-2"
-                    href={"/chats"}
+                    href={"/c"}
                   >
                     <MessageSquare /> Chats
                   </Link>
@@ -58,7 +58,7 @@ export const Header = ({}: Props) => {
       </div>
       <div className="flex items-center justify-center gap-3">
         {user && path === "/" && (
-          <Link href={"/chats"}>
+          <Link href={"/c"}>
             <Button>Get Started</Button>
           </Link>
         )}
