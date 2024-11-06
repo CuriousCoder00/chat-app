@@ -11,5 +11,10 @@ export const UserRegistrationSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+export const UsernameSchema = z.object({
+  username: z.string().min(3, "Name must be at least 3 characters"),
+});
+
 export type UserLoginSchemaType = z.infer<typeof UserLoginSchema>;
 export type UserRegistrationSchemaType = z.infer<typeof UserRegistrationSchema>;
+export type UsernameSchemaType = z.infer<typeof UsernameSchema>;

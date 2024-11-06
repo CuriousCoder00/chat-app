@@ -4,7 +4,6 @@ import { ModeToggle } from "../theme-toggler";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useCurrentUser from "@/hooks/use-current-user";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { UserAvatar } from "../user-avatar";
 
 type Props = {};

@@ -1,3 +1,4 @@
+"use client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { signOut } from "next-auth/react";
+
 type Props = {
   image: string;
   name: string;
