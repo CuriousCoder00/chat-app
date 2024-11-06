@@ -4,9 +4,7 @@ import { PlusCircle, SendHorizontalIcon } from 'lucide-react'
 const ChatBox = () => {
   return (
     <div className="flex flex-col w-full h-full">
-    {/* <div className="flex flex-col">
-      <Header type="chat" />
-    </div> */}
+
     <div className="relative flex flex-col items-start justify-start w-full h-full">
       <div className="absolute bottom-12 mt-2 flex flex-col items-start justify-start p-2 overflow-y-auto hidden-scrollbar max-h-[100%]"></div>
       <div className="absolute bottom-2 w-full flex px-2">
