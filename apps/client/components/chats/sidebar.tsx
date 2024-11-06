@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Avatar, AvatarImage } from "../ui/avatar";
 
 type ChatSidebarProps = {
   children: React.ReactNode;
@@ -19,13 +20,21 @@ export const ChatSidebar = ({ children }: ChatSidebarProps) => {
 
 export const ChatSidebarItems = ({ users }: ChatSidebarItemsProps) => {
   return (
-    <div className="flex flex-col justify-start items-start w-full">
+    <div className="flex flex-col justify-start items-start w-full gap-2">
       {users.map((user, index) => (
         <Link
           key={index}
           href={"/chats/" + user.name}
-          className="flex w-full text-md text-gray-700 hover:bg-gray-200 hover:text-gray-800 rounded-md p-2"
+          className="flex items-center justify-start gap-3 w-full text-md hover:bg-gray-200 hover:text-gray-800 hover:dark:bg-gray-800 dark:text-gray-200 rounded-md p-2"
         >
+          <Avatar>
+            <AvatarImage
+              src={
+                "https://lh3.googleusercontent.com/a/ACg8ocLYTBMCF62V0uR21TR6l3k8hBsBJQfehxJBuACbWPAwLRR1ww=s96-c"
+              }
+              alt={user.name}
+            />
+          </Avatar>
           {user.name}
         </Link>
       ))}
