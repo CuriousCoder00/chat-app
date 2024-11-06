@@ -25,9 +25,9 @@ model User {
   image String?
 
   accounts Account[]
-  friends  Friend[]
-
-  emailVerified DateTime?
+  messages Message[]
+  friends Friend[]
+  ChatRoom      ChatRoom[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -55,11 +55,46 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
-model Friend {
+model Friend{
   id String @id @default(cuid()) @map("_id")
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  friendId String
+  friend   User   @relation(fields: [friendId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ChatRoom {
+  id String @id @default(cuid()) @map("_id")
+
+  name     String
+  messages Message[]
+
   userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  chatRoomRole ChatRoomRole @default(MEMBER)
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+enum ChatRoomRole {
+  ADMIN
+  MEMBER
+}
+
+model Message {
+  id String @id @default(cuid()) @map("_id")
+
+  chatRoomId String
+  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  content String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

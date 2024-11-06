@@ -14,7 +14,7 @@ type ChatSidebarItemsProps = {
 
 export const ChatSidebar = ({ children }: ChatSidebarProps) => {
   return (
-    <div className="flex flex-col justify-start items-start border w-96 h-full overflow-y-auto px-2 gap-2">
+    <div className="flex flex-col justify-start items-start border w-96 h-full overflow-y-auto p-2 gap-2">
       {children}
     </div>
   );
