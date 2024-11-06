@@ -1,13 +1,7 @@
 "use client";
 import { UserOnboarding } from "@/components/new-user-confirmation";
 import { Sidebar, SidebarItems } from "@/components/sidebar";
-import {
-  Building,
-  LayoutDashboard,
-  MessageSquare,
-  Settings,
-  UserPlus,
-} from "lucide-react";
+import { MessageSquare, Settings, UserPlus } from "lucide-react";
 import Link from "next/link";
 
 export default function RootLayout({
