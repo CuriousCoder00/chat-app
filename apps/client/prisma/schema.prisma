@@ -27,7 +27,6 @@ model User {
   accounts Account[]
   messages Message[]
   friends Friend[]
-  ChatRoom      ChatRoom[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -65,31 +64,8 @@ model Friend{
   updatedAt DateTime @updatedAt
 }
 
-model ChatRoom {
-  id String @id @default(cuid()) @map("_id")
-
-  name     String
-  messages Message[]
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
-
-  chatRoomRole ChatRoomRole @default(MEMBER)
-
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
-}
-
-enum ChatRoomRole {
-  ADMIN
-  MEMBER
-}
-
 model Message {
   id String @id @default(cuid()) @map("_id")
-
-  chatRoomId String
-  chatRoom   ChatRoom @relation(fields: [chatRoomId], references: [id])
 
   userId String
   user   User   @relation(fields: [userId], references: [id])
