@@ -8,7 +8,7 @@ export default function RootLayout({
 }>) {
   return (
     <div className="flex w-full h-full">
-      <div className="flex items-center justify-center w-full h-screen overflow-hidden">
+      <div className="flex items-center justify-center w-full max-h-[92vh] overflow-hidden">
         <div className="flex flex-col w-full h-full">
           <div className="flex w-full h-full">
             <ChatSidebar>
