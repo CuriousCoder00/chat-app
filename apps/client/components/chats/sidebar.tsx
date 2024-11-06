@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Input } from "../ui/input";
-import { getAllUsers } from "@/actions/temp.action";
+import { getAllConversationsById } from "@/actions/conversations.actions";
+import { auth } from "@/auth";
 
 type ChatSidebarProps = {
   children: React.ReactNode;
@@ -22,20 +23,23 @@ export const ChatSidebar = ({ children }: ChatSidebarProps) => {
   );
 };
 
-export const ChatSidebarItems = async ({ users }: ChatSidebarItemsProps) => {
-  const data = await getAllUsers();
-  const userData = data?.users;
+export const ChatSidebarItems = async () => {
+  const session = await auth();
+  const user = session?.user;
+  const data = await getAllConversationsById(user?.id as string);
+  const conversations = data?.conversations;
+
   return (
     <div className="flex flex-col justify-start items-start w-full gap-2">
       <Input
         className="w-full bg-transparent text-gray-800 dark:text-gray-200 text-xs"
         placeholder="Search for a user with email or username"
       />
-      {userData &&
-        userData.map((user, index) => (
+      {conversations &&
+        conversations.map((conversation, index) => (
           <Link
             key={index}
-            href={"/c/chat/" + user.id}
+            href={"/c/chat/" + conversation.id}
             className="flex items-center justify-start gap-3 w-full text-md hover:bg-gray-200 hover:text-gray-800 hover:dark:bg-gray-800 dark:text-gray-200 rounded-md p-2 transition-colors duration-200 ease-in-out"
           >
             <Avatar>

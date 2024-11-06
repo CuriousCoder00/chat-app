@@ -10,7 +10,7 @@ export default function RootLayout({
       <div className="flex flex-col w-full h-full">
         <div className="flex w-full h-full">
           <ChatSidebar>
-            <ChatSidebarItems users={links} />
+            <ChatSidebarItems/>
           </ChatSidebar>
           <div className="flex flex-col h-full w-full overflow-hidden gap-3 border">
             {children}
@@ -20,9 +20,3 @@ export default function RootLayout({
     </div>
   );
 }
-
-const links = [
-  { name: "Chats", image: "/chats" },
-  { name: "Friends", image: "/friends" },
-  { name: "Settings", image: "/settings" },
-];
