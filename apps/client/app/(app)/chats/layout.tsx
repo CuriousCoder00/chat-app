@@ -7,16 +7,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex w-full h-full">
-      <div className="flex items-center justify-center w-full max-h-[92vh] overflow-hidden">
-        <div className="flex flex-col w-full h-full">
-          <div className="flex w-full h-full">
-            <ChatSidebar>
-              <ChatSidebarItems users={links} />
-            </ChatSidebar>
-            <div className="flex flex-col h-full w-full overflow-hidden gap-3 border">
-              {children}
-            </div>
+    <div className="flex items-center justify-center w-full chat-layout_height overflow-hidden">
+      <div className="flex flex-col w-full h-full">
+        <div className="flex w-full h-full">
+          <ChatSidebar>
+            <ChatSidebarItems users={links} />
+          </ChatSidebar>
+          <div className="flex flex-col h-full w-full overflow-hidden gap-3 border">
+            {children}
           </div>
         </div>
       </div>
