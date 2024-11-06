@@ -1,3 +1,4 @@
+"use server";
 import db from "@/lib/prisma-config";
 
 export const getAllUsers = async () => {
@@ -8,3 +9,4 @@ export const getAllUsers = async () => {
     return { success: false, message: "Failed to get users", error };
   }
 };
+

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { getUserByID } from "@/lib/utils/user.utils";
 import { User } from "@prisma/client";
 import { getUserData } from "@/actions/user.actions";
+import { getCurrentChatInfo } from "@/actions/conversations.actions";
 
 type Props = {
   id: string;
@@ -13,16 +14,13 @@ type Props = {
 
 export const ChatHeader = ({ id }: Props) => {
   const [user, setUser] = useState<any>();
-
   const fetchUser = async (id: string) => {
-    const user = await getUserData(id);
+    const user = await getCurrentChatInfo(id);
     setUser(user);
-    console.log(user);
   };
 
   useEffect(() => {
     fetchUser(id);
-    console.log("user set", user);
   }, []);
 
   return (

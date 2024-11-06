@@ -1,10 +1,9 @@
 "use client";
-
 import ChatBox from "@/components/chats/chat-box";
 import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 
-const page = () => {
+const Chat = () => {
   const path = usePathname();
   const id = path.split("/").pop() as string;
   return (
@@ -14,4 +13,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Chat;

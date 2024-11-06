@@ -1,8 +1,13 @@
+"use client";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Input } from "../ui/input";
-import { getAllConversationsById } from "@/actions/conversations.actions";
+import { getAllConversations } from "@/actions/conversations.actions";
 import { auth } from "@/auth";
+import useCurrentUser from "@/hooks/use-current-user";
+import { useEffect, useState } from "react";
+import { Conversation } from "@prisma/client";
+import { ChatMember } from "./chat-member";
 
 type ChatSidebarProps = {
   children: React.ReactNode;
@@ -23,41 +28,41 @@ export const ChatSidebar = ({ children }: ChatSidebarProps) => {
   );
 };
 
-export const ChatSidebarItems = async () => {
-  const session = await auth();
-  const user = session?.user;
-  const data = await getAllConversationsById(user?.id as string);
-  const conversations = data?.conversations;
+export const ChatSidebarItems = () => {
+  const user = useCurrentUser();
+  const userId = user?.id as string;
+  const [conversations, setConversations] = useState<Conversation[]>(
+    [] as Conversation[]
+  );
 
+  useEffect(() => {
+    const fetchData = async (id: string) => {
+      try {
+        const data = (await getAllConversations(
+          user?.id as string
+        )) as Conversation[];
+        setConversations(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData(userId);
+  }, []);
   return (
     <div className="flex flex-col justify-start items-start w-full gap-2">
       <Input
         className="w-full bg-transparent text-gray-800 dark:text-gray-200 text-xs"
         placeholder="Search for a user with email or username"
       />
-      {conversations &&
-        conversations.map((conversation, index) => (
-          <Link
-            key={index}
-            href={"/c/chat/" + conversation.id}
-            className="flex items-center justify-start gap-3 w-full text-md hover:bg-gray-200 hover:text-gray-800 hover:dark:bg-gray-800 dark:text-gray-200 rounded-md p-2 transition-colors duration-200 ease-in-out"
-          >
-            <Avatar>
-              <AvatarImage src={user.image as string} alt={user.name} />
-              <AvatarFallback>{user.name?.[0]}</AvatarFallback>
-            </Avatar>
-            <div className="flex items-start justify-center flex-col w-full overflow-hidden">
-              {user.name}
-              <div className="flex justify-start flex-nowrap items-center w-full">
-                <span className="w-full text-ellipsis text-nowrap text-sm">
-                  this is the last message data that was sent by either you or
-                  the other user
-                </span>
-                ...
-              </div>
-            </div>
-          </Link>
-        ))}
+      {conversations.map((conversation, index) => (
+        <Link
+          key={index}
+          href={"/c/chat/" + conversation.id}
+          className="flex items-center justify-start gap-3 w-full text-md hover:bg-gray-200 hover:text-gray-800 hover:dark:bg-gray-800 dark:text-gray-200 rounded-md p-2 transition-colors duration-200 ease-in-out overflow-hidden "
+        >
+          <ChatMember id={conversation.memberOneId} />
+        </Link>
+      ))}
     </div>
   );
 };
