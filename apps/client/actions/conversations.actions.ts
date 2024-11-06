@@ -14,6 +14,23 @@ export const getAllConversations = async (userId: string) => {
   }
 };
 
+export const initiateConversation = async (
+  memberOneId: string,
+  memberTwoId: string
+) => {
+  try {
+    const conversation = await db.conversation.create({
+      data: {
+        memberOneId,
+        memberTwoId,
+      },
+    });
+    return conversation;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getCurrentChatInfo = async (conversationId: string) => {
   try {
     const chat = await db.conversation.findFirst({
