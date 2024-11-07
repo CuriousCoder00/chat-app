@@ -22,7 +22,6 @@ export const ChatSearchCreate = () => {
   const currentUser = useCurrentUser();
   const [search, setSearch] = useState<string>("");
   const [user, setUser] = useState<User>();
-  const [conversation, setConversation] = useState<Conversation>();
   const router = useRouter();
   // get value from input
   const handleSearch = (e: any) => {
@@ -35,11 +34,8 @@ export const ChatSearchCreate = () => {
         user?.id as string,
         currentUser?.id as string
       );
-      console.log(data);
-      setConversation(data);
-      setTimeout(() => {
-        console.log(conversation);
-        router.push(`/c/chat/${conversation?.id}`);
+      setTimeout((data: Conversation) => {
+        router.push(`/c/chat/${data.id}`);
       }, 2000);
     } catch (error) {
       console.log(error);
