@@ -25,6 +25,8 @@ export const ChatSidebarItems = () => {
   const [conversations, setConversations] = useState<Conversation[]>(
     [] as Conversation[]
   );
+  const [anotherUserId, setAnotherUserId] = useState<string>("");
+
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     const fetchData = async (id: string) => {
@@ -34,6 +36,7 @@ export const ChatSidebarItems = () => {
           user?.id as string
         )) as Conversation[];
         setConversations(data);
+        console.log(data);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -52,7 +55,13 @@ export const ChatSidebarItems = () => {
             href={"/c/chat/" + conversation.id}
             className="flex items-center justify-start gap-3 w-full text-md hover:bg-gray-200 hover:text-gray-800 hover:dark:bg-gray-800 dark:text-gray-200 rounded-md p-2 transition-colors duration-200 ease-in-out overflow-hidden "
           >
-            <ChatMember id={conversation.memberOneId} />
+            <ChatMember
+              id={
+                conversation?.memberOneId === userId
+                  ? conversation?.memberTwoId
+                  : conversation?.memberOneId
+              }
+            />
           </Link>
         ))
       ) : (

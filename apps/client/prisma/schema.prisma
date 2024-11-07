@@ -17,7 +17,7 @@ model User {
 
   image String?
 
-  emailVerified   DateTime?
+  emailVerified DateTime?
 
   accounts Account[]
   groups   Group[]
@@ -119,6 +119,9 @@ model Conversation {
   memberTwo   Member @relation("MemberTwo", fields: [memberTwoId], references: [id], onDelete: Cascade)
 
   directMessages DirectMessage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([memberOneId, memberTwoId])
   @@index([memberTwoId])

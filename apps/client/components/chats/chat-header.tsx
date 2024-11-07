@@ -5,12 +5,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useEffect, useState } from "react";
 
 import { getCurrentChatInfo } from "@/actions/conversations.actions";
+import useCurrentUser from "@/hooks/use-current-user";
 
 type Props = {
   id: string;
 };
 
 export const ChatHeader = ({ id }: Props) => {
+  const currentUser = useCurrentUser();
   const [user, setUser] = useState<any>();
   const fetchUser = async (id: string) => {
     const user = await getCurrentChatInfo(id);
@@ -19,6 +21,7 @@ export const ChatHeader = ({ id }: Props) => {
 
   useEffect(() => {
     fetchUser(id);
+    console.log(currentUser?.id === user?.id);
   }, []);
 
   return (
