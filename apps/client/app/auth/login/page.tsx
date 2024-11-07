@@ -6,12 +6,10 @@ import React from "react";
 
 const LoginPage = () => {
   return (
-    <div className="flex h-screen w-screen max-w-screen max-h-screen items-center justify-center">
-      <div className="flex items-center w-full mt-4">
+    <div className="flex max-w-screen max-h-screen h-screen items-center justify-center">
+      <div className="flex items-center justify-center w-full">
         <AuthForm>
-          <div className="flex items-center w-full mt-4">
-            <Socials />
-          </div>
+          <Socials />
         </AuthForm>
       </div>
     </div>

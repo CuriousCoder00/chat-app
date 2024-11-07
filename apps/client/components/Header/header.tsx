@@ -15,7 +15,7 @@ export const Header = ({}: Props) => {
   const path = usePathname();
   return (
     <header
-      className={`${path === "/" ? "fixed top-0" : ""} w-full flex items-center justify-between p-2 px-8 border-b h-14`}
+      className={`${path === "/" || "/auth/login" ? "fixed top-0" : ""} w-full flex items-center justify-between p-2 px-8 border-b h-14`}
     >
       <div className=" flex items-center space-x-4">
         <div className="flex items-center justify-center sm:hidden">
