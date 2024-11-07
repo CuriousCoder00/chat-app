@@ -23,7 +23,7 @@ export const ChatHeader = ({ id }: Props) => {
 
   return (
     <div className="w-full flex items-center justify-between p-2 border-b">
-      {user.length > 0 ? (
+      {user ? (
         <div className="flex items-center space-x-4">
           <Avatar>
             <AvatarImage src={user?.image as string} />
@@ -36,9 +36,9 @@ export const ChatHeader = ({ id }: Props) => {
         </div>
       ) : (
         <div className="flex items-center space-x-4">
-          <div className="flex items-center justify-center rounded-full h-12 w-12 border shadow-inner dark:shadow-gray-600 animate-pulse"/>
+          <div className="flex items-center justify-center rounded-full h-12 w-12 border shadow-inner dark:shadow-gray-600 animate-pulse" />
           <div className="flex flex-col gap-1 ">
-            <div className="w-28 h-6 rounded-md bg-zinc-800 dark:shadow-gray-600 animate-pulse"/>
+            <div className="w-28 h-6 rounded-md bg-zinc-800 dark:shadow-gray-600 animate-pulse" />
             <span className="w-20 h-3 border rounded-md bg-zinc-800 dark:shadow-gray-600 animate-pulse"></span>
           </div>
         </div>

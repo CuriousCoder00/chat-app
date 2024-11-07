@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
@@ -9,14 +10,40 @@ import {
   DialogHeader,
 } from "../ui/dialog";
 import { Input } from "../ui/input";
-import { findUserByUsernameOrEmail } from "@/actions/conversations.actions";
-import { User } from "@prisma/client";
+import {
+  findUserByUsernameOrEmail,
+  initiateConversation,
+} from "@/actions/conversations.actions";
+import { Conversation, User } from "@prisma/client";
+import { Button } from "../ui/button";
+import useCurrentUser from "@/hooks/use-current-user";
+import { useRouter } from "next/navigation";
 export const ChatSearchCreate = () => {
+  const currentUser = useCurrentUser();
   const [search, setSearch] = useState<string>("");
   const [user, setUser] = useState<User>();
+  const [conversation, setConversation] = useState<Conversation>();
+  const router = useRouter();
   // get value from input
   const handleSearch = (e: any) => {
     setSearch(e.target.value);
+  };
+
+  const initConversation = async () => {
+    try {
+      const data = await initiateConversation(
+        user?.id as string,
+        currentUser?.id as string
+      );
+      console.log(data);
+      setConversation(data);
+      setTimeout(() => {
+        console.log(conversation);
+        router.push(`/c/chat/${conversation?.id}`);
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -41,7 +68,7 @@ export const ChatSearchCreate = () => {
   return (
     <div className="flex w-full">
       <Dialog>
-        <DialogTrigger className="flex w-full">
+        <DialogTrigger className="flex w-full cursor-text">
           <div className="flex items-center justify-start w-full bg-transparent text-gray-800 dark:text-gray-200 text-xs p-2 py-3 border rounded-md shadow-inner shadow-gray-600">
             Search for a user with email or username
           </div>
@@ -65,7 +92,11 @@ export const ChatSearchCreate = () => {
           <div className="flex flex-col items-start justify-center w-full h-full p-2 gap-4">
             {search &&
               (user ? (
-                <div className="flex items-center justify-start gap-3 rounded-md p-2 shadow-inner shadow-gray-600 w-full">
+                <Button
+                  variant={"ghost"}
+                  className="flex items-center justify-start gap-3 rounded-md p-2 h-12 w-full"
+                  onClick={() => initConversation()}
+                >
                   <Avatar>
                     <AvatarImage src={user?.image as string} />
                     <AvatarFallback>{user?.name[0]}</AvatarFallback>
@@ -79,7 +110,7 @@ export const ChatSearchCreate = () => {
                       ... */}
                     </div>
                   </div>
-                </div>
+                </Button>
               ) : (
                 <div className="flex items-center justify-start">
                   User not found...
