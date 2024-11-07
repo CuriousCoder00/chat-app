@@ -3,9 +3,7 @@
 import { PhoneCallIcon, Video } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useEffect, useState } from "react";
-import { getUserByID } from "@/lib/utils/user.utils";
-import { User } from "@prisma/client";
-import { getUserData } from "@/actions/user.actions";
+
 import { getCurrentChatInfo } from "@/actions/conversations.actions";
 
 type Props = {
@@ -25,16 +23,27 @@ export const ChatHeader = ({ id }: Props) => {
 
   return (
     <div className="w-full flex items-center justify-between p-2 border-b">
-      <div className="flex items-center space-x-4">
-        <Avatar>
-          <AvatarImage src={user?.image as string} />
-          <AvatarFallback>{user?.name[0]}</AvatarFallback>
-        </Avatar>
-        <div className="flex flex-col gap-0">
-          <h2 className="text-lg font-bold">{user?.name}</h2>
-          <span className="text-xs text-gray-500">Online</span>
+      {user.length > 0 ? (
+        <div className="flex items-center space-x-4">
+          <Avatar>
+            <AvatarImage src={user?.image as string} />
+            <AvatarFallback>{user?.name[0]}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col gap-0">
+            <h2 className="text-lg font-bold">{user?.name}</h2>
+            <span className="text-xs text-gray-500">Online</span>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-center rounded-full h-12 w-12 border shadow-inner dark:shadow-gray-600 animate-pulse"/>
+          <div className="flex flex-col gap-1 ">
+            <div className="w-28 h-6 rounded-md bg-zinc-800 dark:shadow-gray-600 animate-pulse"/>
+            <span className="w-20 h-3 border rounded-md bg-zinc-800 dark:shadow-gray-600 animate-pulse"></span>
+          </div>
+        </div>
+      )}
+
       <div className="flex items-center justify-center gap-5">
         <PhoneCallIcon size={18} />
         <Video />

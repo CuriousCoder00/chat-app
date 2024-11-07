@@ -1,23 +1,14 @@
 "use client";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Input } from "../ui/input";
 import { getAllConversations } from "@/actions/conversations.actions";
-import { auth } from "@/auth";
 import useCurrentUser from "@/hooks/use-current-user";
 import { useEffect, useState } from "react";
 import { Conversation } from "@prisma/client";
 import { ChatMember } from "./chat-member";
+import { ChatSearchCreate } from "./search-user";
 
 type ChatSidebarProps = {
   children: React.ReactNode;
-};
-
-type ChatSidebarItemsProps = {
-  users: {
-    name: string;
-    image: string;
-  }[];
 };
 
 export const ChatSidebar = ({ children }: ChatSidebarProps) => {
@@ -50,10 +41,7 @@ export const ChatSidebarItems = () => {
   }, []);
   return (
     <div className="flex flex-col justify-start items-start w-full gap-2">
-      <Input
-        className="w-full bg-transparent text-gray-800 dark:text-gray-200 text-xs"
-        placeholder="Search for a user with email or username"
-      />
+      <ChatSearchCreate />
       {conversations.map((conversation, index) => (
         <Link
           key={index}

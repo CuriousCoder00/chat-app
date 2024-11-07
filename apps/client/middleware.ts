@@ -11,7 +11,7 @@ export default auth((req) => {
   const isPublicRoute = ["/"].includes(nextUrl.pathname);
   const isAuthRoute = ["/auth/login"].includes(nextUrl.pathname);
 
-  const DEFAULT_LOGIN_REDIRECT = "/chats";
+  const DEFAULT_LOGIN_REDIRECT = "/c";
 
   if (isApiAuthRoute) return;
   if (isAuthRoute && isLoggedIn) {

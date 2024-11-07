@@ -1,17 +1,25 @@
+"use server";
 import { getAllUsers } from "@/actions/temp.action";
-import ChatBox from "@/components/chats/chat-box";
+import { auth } from "@/auth";
 import db from "@/lib/prisma-config";
 import { redirect } from "next/navigation";
 
 const ChatPage = async () => {
-  // find first user data in db
-  const user = await db.user.findFirst();
-
-  // if (!conversations.success)
-  //   return <div>Error occurred while getting conversations</div>;
-  // if (conversations.success && !conversations.users)
-  //   return <div>No conversations found</div>;
-  return redirect("/c/chat/" + user?.id);
+  const session = await auth();
+  const user = session?.user;
+  const conversation = await db.conversation.findFirst({
+    where: {
+      memberTwoId: user?.id,
+    },
+  });
+  if (!conversation) {
+    return (
+      <div className="flex items-center justify-center h-full w-full">
+        There are no conversations available.
+      </div>
+    );
+  }
+  return redirect("/c/chat/" + conversation?.id);
 };
 
 export default ChatPage;
