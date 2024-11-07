@@ -21,7 +21,6 @@ export const ChatHeader = ({ id }: Props) => {
 
   useEffect(() => {
     fetchUser(id);
-    console.log(currentUser?.id === user?.id);
   }, []);
 
   return (

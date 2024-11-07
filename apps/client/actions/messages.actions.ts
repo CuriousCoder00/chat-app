@@ -40,3 +40,21 @@ export const createDirectMessage = async (
     return error;
   }
 };
+
+export const getLastMessage = async (
+  conversationId: string
+) => {
+  try {
+    const message = await db.directMessage.findFirst({
+      where: {
+          conversationId,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return message;
+  } catch (error) {
+    return error;
+  }
+};

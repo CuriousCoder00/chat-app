@@ -31,14 +31,11 @@ const ChatBox = ({ id }: { id: string }) => {
   const fetchMessages = async () => {
     // fetch messages from the server
     const messageData = await getAllDirectMessages(id);
-    console.log(messageData);
     setMessages(messageData as DirectMessage[]);
   };
 
   useEffect(() => {
     fetchMessages();
-    console.log(messages);
-    console.log(messageContent);
   }, []);
 
   return (

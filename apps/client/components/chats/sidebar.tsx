@@ -25,7 +25,6 @@ export const ChatSidebarItems = () => {
   const [conversations, setConversations] = useState<Conversation[]>(
     [] as Conversation[]
   );
-  const [anotherUserId, setAnotherUserId] = useState<string>("");
 
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
@@ -36,7 +35,6 @@ export const ChatSidebarItems = () => {
           user?.id as string
         )) as Conversation[];
         setConversations(data);
-        console.log(data);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -61,6 +59,7 @@ export const ChatSidebarItems = () => {
                   ? conversation?.memberTwoId
                   : conversation?.memberOneId
               }
+              conversationId={conversation.id}
             />
           </Link>
         ))
