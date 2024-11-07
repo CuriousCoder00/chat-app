@@ -1,3 +1,5 @@
+"use server";
+
 /***
  * Direct Messages Actions
  */
@@ -23,7 +25,7 @@ export const getAllDirectMessages = async (conversationId: string) => {
 export const createDirectMessage = async (
   content: string,
   conversationId: string,
-  memberId: string,
+  memberId: string
 ) => {
   try {
     const message = await db.directMessage.create({

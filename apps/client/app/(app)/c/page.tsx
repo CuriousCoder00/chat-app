@@ -11,6 +11,9 @@ const ChatPage = async () => {
     where: {
       memberTwoId: user?.id,
     },
+    orderBy: {
+      updatedAt: "desc",
+    },
   });
   if (!conversation) {
     return (
