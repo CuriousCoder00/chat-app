@@ -52,21 +52,10 @@ export const getCurrentChatInfo = async (conversationId: string) => {
   }
 };
 
-export const findUserByUsernameOrEmail = async (data: string) => {
+export const findUsers = async () => {
   try {
-    const user = await db.user.findFirst({
-      where: {
-        OR: [
-          {
-            username: data,
-          },
-          {
-            email: data,
-          },
-        ],
-      },
-    });
-    return user;
+    const users = await db.user.findMany({});
+    return users;
   } catch (error) {
     return error;
   }

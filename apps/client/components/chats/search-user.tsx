@@ -11,7 +11,7 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import {
-  findUserByUsernameOrEmail,
+  findUsers,
   initiateConversation,
 } from "@/actions/conversations.actions";
 import { Conversation, User } from "@prisma/client";
@@ -21,17 +21,28 @@ import { useRouter } from "next/navigation";
 export const ChatSearchCreate = () => {
   const currentUser = useCurrentUser();
   const [search, setSearch] = useState<string>("");
-  const [user, setUser] = useState<User>();
+  const [users, setUsers] = useState<User[]>();
   const router = useRouter();
   // get value from input
   const handleSearch = (e: any) => {
     setSearch(e.target.value);
   };
+  // get user from search
+  const userData = users?.filter((user) => {
+    if (
+      user.email.startsWith(search) ||
+      user?.username?.startsWith(search) ||
+      user.name.startsWith(search)
+    ) {
+      return user;
+    }
+  });
 
-  const initConversation = async () => {
+  // initiate conversation
+  const initConversation = async (userId: string) => {
     try {
       const data = await initiateConversation(
-        user?.id as string,
+        userId,
         currentUser?.id as string
       );
       setTimeout((data: Conversation) => {
@@ -43,21 +54,20 @@ export const ChatSearchCreate = () => {
   };
 
   useEffect(() => {
-    const fetchData = async (data: string) => {
+    const fetchData = async () => {
       try {
-        const user = await findUserByUsernameOrEmail(data);
-        setUser(user as User);
+        const users = await findUsers();
+        setUsers(users as User[]);
       } catch (error) {
         console.log(error);
       }
     };
-
     setTimeout(() => {
-      fetchData(search);
-    }, 3000);
+      fetchData();
+    }, 1000);
 
     return () => {
-      fetchData(search);
+      fetchData();
     };
   }, [search]);
 
@@ -69,49 +79,55 @@ export const ChatSearchCreate = () => {
             Search for a user with email or username
           </div>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="">
           <DialogHeader>
             <DialogTitle>Search for a user</DialogTitle>
             <DialogDescription>
               Search for a user with their email or username
             </DialogDescription>
           </DialogHeader>
-          <div className="flex items-center justify-center p-2 w-full">
-            <Input
-              className=" p-2 border rounded-md"
-              type="text"
-              value={search}
-              onChange={handleSearch}
-              placeholder="Search for a user with email or username"
-            />
-          </div>
-          <div className="flex flex-col items-start justify-center w-full h-full p-2 gap-4">
-            {search &&
-              (user ? (
-                <Button
-                  variant={"ghost"}
-                  className="flex items-center justify-start gap-3 rounded-md p-2 h-12 w-full"
-                  onClick={() => initConversation()}
-                >
-                  <Avatar>
-                    <AvatarImage src={user?.image as string} />
-                    <AvatarFallback>{user?.name[0]}</AvatarFallback>
-                  </Avatar>
-                  <div className="flex items-start justify-start flex-col overflow-hidden">
-                    {user.name}
-                    <div className="flex justify-start flex-nowrap items-center overflow-hidden">
-                      {/* <span className="w-full text-ellipsis text-nowrap text-sm">
-                        this is the last message data that was sent by
-                      </span>
-                      ... */}
-                    </div>
+          <div className="flex flex-col items-center justify-start w-full max-h-[400px] overflow-hidden gap-4">
+            <div className="flex items-center justify-center p-2 w-full">
+              <Input
+                className=" p-2 border rounded-md"
+                type="text"
+                value={search}
+                onChange={handleSearch}
+                placeholder="Search for a user with email or username"
+              />
+            </div>
+            <div className="flex flex-col items-start justify-start w-full h-full p-2 gap-4 max-h-[300px] overflow-y-auto">
+              {search &&
+                (userData && userData?.length > 0 ? (
+                  userData.map((u) => (
+                    <Button
+                      variant={"ghost"}
+                      className="flex items-center justify-start gap-3 rounded-md p-2 h-12 w-full"
+                      onClick={() => initConversation(u?.id as string)}
+                    >
+                      <Avatar>
+                        <AvatarImage src={u?.image as string} />
+                        <AvatarFallback>{u?.name[0]}</AvatarFallback>
+                      </Avatar>
+                      <div className="flex items-start justify-start flex-col overflow-hidden">
+                        <div className="flex items-center justify-start gap-3">
+                          {u?.name}
+                          <span className="text-xs text-gray-500">
+                            @{u?.username}
+                          </span>
+                        </div>
+                        <span className="text-xs text-gray-500">
+                          {u?.email}
+                        </span>
+                      </div>
+                    </Button>
+                  ))
+                ) : (
+                  <div className="flex items-center justify-start">
+                    User not found...
                   </div>
-                </Button>
-              ) : (
-                <div className="flex items-center justify-start">
-                  User not found...
-                </div>
-              ))}
+                ))}
+            </div>
           </div>
         </DialogContent>
       </Dialog>
