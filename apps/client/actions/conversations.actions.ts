@@ -52,3 +52,22 @@ export const getCurrentChatInfo = async (conversationId: string) => {
   }
 };
 
+export const findUserByUsernameOrEmail = async (data: string) => {
+  try {
+    const user = await db.user.findFirst({
+      where: {
+        OR: [
+          {
+            username: data,
+          },
+          {
+            email: data,
+          },
+        ],
+      },
+    });
+    return user;
+  } catch (error) {
+    return error;
+  }
+};
