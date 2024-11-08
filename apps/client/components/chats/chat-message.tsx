@@ -28,9 +28,9 @@ export const DirectMessages = ({ message, userId }: Props) => {
           <p>{user?.name}</p>
           <div className="flex gap-2 items-start justify-end text-xs text-gray-800 dark:text-gray-500 w-26">
             <span className="w-26 text-nowrap">
-              {message?.createdAt.toDateString()}
+              {message?.createdAt?.toDateString()}
             </span>
-            <span>{message?.createdAt.toLocaleTimeString()}</span>
+            <span>{message?.createdAt?.toLocaleTimeString()}</span>
           </div>
         </div>
         <p className="text-sm text-gray-800 dark:text-gray-300">

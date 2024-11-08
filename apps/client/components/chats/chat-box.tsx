@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { PlusCircle, SendHorizontalIcon } from "lucide-react";
 import { ChatHeader } from "./chat-header";
 import {
@@ -12,15 +12,22 @@ import { DirectMessages } from "./chat-message";
 import { ScrollArea } from "../ui/scroll-area";
 
 const ChatBox = ({ id }: { id: string }) => {
-  const [messageContent, setMessageContent] = React.useState<string>("");
-  const [messages, setMessages] = React.useState<DirectMessage[]>([]);
+  const [messageContent, setMessageContent] = useState<string>("");
+  const [messages, setMessages] = useState<DirectMessage[]>([]);
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+
   const user = useCurrentUser();
   const userId = user?.id as string;
+
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessageContent(e.target.value);
   };
 
-  const sendMessage = async () => {
+  const submitMessage = async (messageContent: string) => {
     // send message to the server
     const res = await createDirectMessage(messageContent, id, userId);
     if (res) {
@@ -28,18 +35,18 @@ const ChatBox = ({ id }: { id: string }) => {
       setMessageContent("");
     }
   };
+
   const handleKeyPress = (event: { key: any }) => {
-    if (event.key === "Enter") return sendMessage();
+    if (event.key === "Enter") return submitMessage(messageContent);
   };
+
   const fetchMessages = async () => {
     // fetch messages from the server
     const messageData = await getAllDirectMessages(id);
     setMessages(messageData as DirectMessage[]);
   };
 
-  useEffect(() => {
-    fetchMessages();
-  }, []);
+
 
   return (
     <div className="flex flex-col w-full h-full">
@@ -76,7 +83,7 @@ const ChatBox = ({ id }: { id: string }) => {
           />
           <SendHorizontalIcon
             className="text-slate-600 right-0 cursor-pointer"
-            onClick={() => sendMessage()}
+            onClick={() => submitMessage(messageContent)}
           />
         </div>
       </div>
